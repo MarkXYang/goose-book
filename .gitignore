@@ -1,0 +1,14 @@
+# mdBook generated output
+/book/
+
+# Verification scratch & temporary builds
+/build/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Editors / OS
+.DS_Store
+*.swp
+*~

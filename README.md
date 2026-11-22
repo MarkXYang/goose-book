@@ -1,1 +1,41 @@
-# goose-book
+# Programming in Goose
+
+*Memory-Safe Systems Programming Without a Heap*
+
+A comprehensive book for the [Goose programming language](https://github.com/aardappel/goose), built with [mdBook](https://rust-lang.github.io/mdBook/).
+
+- **Outline & Writing Plan:** [OUTLINE.md](OUTLINE.md)
+- **Authoring & Code Conventions:** [style-guide.md](style-guide.md)
+- **Tested Goose Version:** `goose v2026.4-64-ga5ab89f3-dirty` (runtime `41e336e5d1ee`)
+
+## Building the Book
+
+Requires [mdBook](https://rust-lang.github.io/mdBook/) (`v0.5+`):
+
+```bash
+# Build static HTML into book/
+mdbook build
+
+# Serve locally with live reload
+mdbook serve --open
+```
+
+## Verifying Code Examples
+
+Every `goose` code block under `src/` is verified automatically against the `goose` compiler:
+
+```bash
+# Typecheck all code listings
+python3 scripts/check_examples.py
+
+# Typecheck and run complete programs (comparing expected output blocks)
+python3 scripts/check_examples.py --run
+
+# Also compile and run native-build examples (e.g., threaded programs)
+python3 scripts/check_examples.py --run --build
+
+# Check a single chapter with verbose output
+python3 scripts/check_examples.py src/part1_foundations/ch01_why_goose.md --run -v
+```
+
+Pass `--exe /path/to/goose` to test against a specific compiler build.

@@ -1,0 +1,13 @@
+/* Subtle styling refinements for Programming in Goose */
+blockquote {
+    border-left-width: 4px;
+    padding: 0.4rem 1rem;
+}
+
+pre > code {
+    line-height: 1.45;
+}
+
+table {
+    margin: 1.25rem 0;
+}
