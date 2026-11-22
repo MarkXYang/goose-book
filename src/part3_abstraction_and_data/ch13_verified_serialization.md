@@ -266,7 +266,7 @@ Let us combine `to_bytes`, `from_bytes`, `std`'s `hash`, and the `binary` module
 - **64-bit Checksum (`hash(payload)`):** Catches *any* accidental corruption, including 1-bit flips inside scalar counts!
 - **Verified `from_bytes<Node[>..]>`: ** Guarantees structural and pointer safety even against crafted malicious files whose checksum matches!
 
-*(In a real desktop or server CLI app, save the resulting `u8[>..]` with `os::write_file_atomic("index.gsx", blob)` and load it back with `os::read_file("index.gsx", blob)`—the exact pattern used by Goose's `30_mini_minecraft.goose` save system!)*
+*(In a real desktop or server CLI app, `import os;` and save the resulting `u8[>..]` with `write_file_atomic("index.gsx", blob)` and load it back with `read_file("index.gsx", blob)`—the exact pattern used by Goose's `30_mini_minecraft.goose` save system!)*
 
 ```goose
 import std;

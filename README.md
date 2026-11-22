@@ -4,6 +4,7 @@
 
 A comprehensive book for the [Goose programming language](https://github.com/aardappel/goose), built with [mdBook](https://rust-lang.github.io/mdBook/).
 
+- **Status:** Complete — Preface, 23 Chapters across 6 Parts, and Appendices A–D (143 verified code blocks, 0 warnings)
 - **Outline & Writing Plan:** [OUTLINE.md](OUTLINE.md)
 - **Authoring & Code Conventions:** [style-guide.md](style-guide.md)
 - **Tested Goose Version:** `goose v2026.4-64-ga5ab89f3-dirty` (runtime `41e336e5d1ee`)

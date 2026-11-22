@@ -621,7 +621,7 @@ Pause and admire that first line of output: **the entire parsed, typed, linked, 
 
 1. **Add pretty-printing with indentation:** Extend `render_json` with an `indent: i64` parameter (where `indent < 0` emits compact JSON and `indent >= 0` emits 2-space indented JSON with newlines around non-empty arrays and objects).
 2. **Add `\uXXXX` Unicode escape decoding:** Implement `push_utf8(out: u8[>..]&, cp: i64)` and handle `\u` escapes in `parse_string()` using `ascii::hex_value(c)`. Test it on `"caf\u00e9"`.
-3. **Add CLI disk caching via `os`:** Write a wrapper `main()` that accepts a `.json` file path via `os::args()`, checks whether `<path>.gjsn` already exists using `os::read_file`, loads the binary cache if valid, and otherwise parses the JSON and writes `<path>.gjsn` with `os::write_file`.
+3. **Add CLI disk caching via `os`:** Write a wrapper `main()` that imports `os`, accepts a `.json` file path via `args()`, checks whether `<path>.gjsn` already exists using `read_file`, loads the binary cache if valid, and otherwise parses the JSON and writes `<path>.gjsn` with `write_file`.
 4. **Add a wildcard array query:** Extend `query_path` (or add `collect_field(node, key, out)`) so you can collect every `"host"` string across all elements of `"cluster.nodes"` into a `u8[>..]` report.
 
 ---

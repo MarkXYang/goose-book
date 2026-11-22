@@ -7,7 +7,7 @@ Goose keeps project structure deliberately minimal: **whole-program compilation 
 By the end of this chapter, you will be able to:
 
 - Organize multi-file Goose programs using `import`, namespaces, file-local namespace aliases, and global initialization rules.
-- Embed compile-time assets with `embed_file` and locate runtime assets portably with `os::resource_dir()`.
+- Embed compile-time assets with `embed_file` and locate runtime assets portably with `resource_dir()` (from `os`).
 - Consume and author Goose packages—pure Goose, C-backed, or CMake-backed—using flat root-file dependencies.
 - Use the full `goose` CLI (`--stacks`, `--bce-lines`, `--stats`, `--diagnostics json`, `--standalone`, `goose format`, `goose lsp`) in daily work and CI.
 
@@ -109,7 +109,7 @@ Goose makes a clean distinction between assets baked into the executable and ass
   let FONT_BYTES = embed_file("assets/font.ttf");    // const u8[:] in static data
   ```
   `embed_file("path")` resolves relative to the calling source file at **compile time** and embeds the bytes directly into static data (deduplicated per path). `embed_shader(...)` similarly compiles GLSL shaders at compile time for `gfx`. Ideal for self-contained single-binary deployments and packages!
-- **Shipped beside the executable (`os::resource_dir()`):**
+- **Shipped beside the executable (`resource_dir()` from `os`):**
   For large external asset files (such as game WADs or textures), use `str(resource_dir(), "data/map.wad")` from `import os;`: under `goose run`, `resource_dir()` points to the root source file's directory; under `goose build`, it resolves to the compiled executable's own directory (or `Contents/Resources/` inside a macOS `.app` bundle).
 
 ---
@@ -175,7 +175,7 @@ One executable covers your entire development and CI lifecycle:
 
 | Command / Flag | Purpose |
 |---|---|
-| `goose app.goose -- arg1 arg2` | Fast TinyCC in-process run; arguments after `--` go to `os::args()` |
+| `goose app.goose -- arg1 arg2` | Fast TinyCC in-process run; arguments after `--` go to `args()` (from `os`) |
 | `goose build -o bin/app app.goose` | Native optimizing build (`-O2` / `/O2`); add `--debug` for `-O0 -g` + overflow/range checks |
 | `goose build --dry-run app.goose` | Print exact C compiler & linker commands without running them |
 | `goose check --stacks app.goose` | Report exact data-stack count per program/worker and `hardware_threads()` cap |
@@ -226,7 +226,7 @@ For programs using built-in native packages like `gfx`, `goose --gfx-link cc` (o
 
 - Programs compile whole from one **root file**; `import` loads files once, and `fn main()` in imported files is ignored automatically.
 - **Namespaces** (`namespace foo;`, `foo::name`, `::global`, file-local aliases) organize names cleanly while letting UFCS and `format` follow each value's type automatically.
-- Use **`embed_file`** / **`embed_shader`** for compile-time static assets and **`os::resource_dir()`** for shipped runtime files.
+- Use **`embed_file`** / **`embed_shader`** for compile-time static assets and **`resource_dir()`** (from `os`) for shipped runtime files.
 - **Packages are flat and pinned in the root file** (`import lib from "owner/repo@ref"` or `"../local"`), cached under `~/.goose`, with optional `.build` sidecars for C or CMake targets.
 - One `goose` CLI covers JIT runs, native builds, C emission, formatting, shell completions, diagnostic flags (`--stacks`, `--bce-lines`, `--stats`, `--diagnostics json`), and `goose lsp`.
 
