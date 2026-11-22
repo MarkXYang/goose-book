@@ -20,6 +20,7 @@ additional-js = [
     "theme/goose-config.js",
     "theme/goose-precomputed.js",
     "theme/goose-playground.js",
+    "theme/lang-switch.js",
 ]
 
 [output.html.fold]

@@ -207,3 +207,24 @@ pre.goose-playground textarea.goose-editor {
     padding: 0.4rem 0 0 0 !important;
     opacity: 0.85;
 }
+
+/* Language switcher in mdBook top bar */
+.right-buttons a.goose-lang-switch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 9px;
+    margin-right: 6px;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+    opacity: 0.85;
+    vertical-align: middle;
+}
+
+.right-buttons a.goose-lang-switch:hover {
+    opacity: 1;
+}

@@ -151,7 +151,10 @@ def main():
     goose_exe = find_compiler(args.exe)
     version = get_version(goose_exe)
 
-    md_files = sorted(glob.glob(os.path.join(ROOT, "src", "**", "*.md"), recursive=True))
+    md_files = sorted(
+        glob.glob(os.path.join(ROOT, "src", "**", "*.md"), recursive=True)
+        + glob.glob(os.path.join(ROOT, "zh", "src", "**", "*.md"), recursive=True)
+    )
     entries = {}
     total = 0
 

@@ -13,6 +13,61 @@
 (function () {
     "use strict";
 
+    const IS_ZH = (document.documentElement.lang || "").toLowerCase().startsWith("zh");
+    const T = IS_ZH
+        ? {
+              edit: "编辑",
+              done: "完成",
+              stacks: "数据栈",
+              resetTitle: "恢复原始代码",
+              editTitle: "编辑代码（Ctrl+Enter 运行）",
+              stacksTitle: "查看编译器数据栈分配（goose check --stacks）",
+              checkTitle: "使用 goose check 类型检查",
+              runTitle: "运行 Goose 代码（Ctrl+Enter）",
+              running: "正在运行 goose...",
+              connectRunner: "连接在线运行服务",
+              connectTitle: "配置远程或本地 Goose 运行服务以执行自定义修改",
+              connectHeading: "连接在线 Goose 运行服务",
+              needRunnerHeading: "编辑后的代码需要在线 Goose 运行服务",
+              connectDesc:
+                  "未修改的书中示例通过内置已验证快照在任意环境即时运行。如需运行你编辑后的代码，请连接远程 Goose 运行服务（Fly.io / Cloud Run / Render / Docker）或启动本地服务：",
+              connectBtn: "连接并运行",
+              resetUrlBtn: "重置地址",
+              hideOutput: "隐藏输出",
+              noOutput: "（无输出）",
+              verbs: { run: "运行成功", build: "编译并运行", check: "检查通过", stacks: "数据栈报告" },
+              snapshotTag: "已验证快照",
+              remoteTag: "远程运行服务",
+              liveTag: "实时运行",
+              exitLabel: "退出码",
+          }
+        : {
+              edit: "Edit",
+              done: "Done",
+              stacks: "Stacks",
+              resetTitle: "Reset code to original",
+              editTitle: "Edit code (Ctrl+Enter to run)",
+              stacksTitle: "Inspect compiler data stacks (goose check --stacks)",
+              checkTitle: "Typecheck with goose check",
+              runTitle: "Run with goose (Ctrl+Enter)",
+              running: "Running with goose...",
+              connectRunner: "Connect live runner",
+              connectTitle: "Configure a remote or local Goose runner for live edits",
+              connectHeading: "Connect a Live Goose Runner",
+              needRunnerHeading: "Live Goose Runner Required for Edited Code",
+              connectDesc:
+                  "Unedited book listings run anywhere from the built-in verified snapshot. To execute custom edits live, connect a remote Goose runner (Fly.io / Cloud Run / Render / Docker) or start the local server:",
+              connectBtn: "Connect & Run",
+              resetUrlBtn: "Reset URL",
+              hideOutput: "Hide output",
+              noOutput: "(no output)",
+              verbs: { run: "Ran", build: "Built & ran", check: "Checked", stacks: "Data stacks" },
+              snapshotTag: "verified snapshot",
+              remoteTag: "remote runner",
+              liveTag: "live",
+              exitLabel: "Exit",
+          };
+
     const STORAGE_KEY = "goose_playground_url";
     let resolvedEndpoint = null;
     let resolvedMeta = null;
@@ -223,38 +278,32 @@
         const resetBtn = document.createElement("button");
         resetBtn.type = "button";
         resetBtn.className = "goose-btn goose-reset-btn hidden";
-        resetBtn.title = "Reset code to original";
-        resetBtn.setAttribute("aria-label", "Reset code to original");
+        resetBtn.title = T.resetTitle;
+        resetBtn.setAttribute("aria-label", T.resetTitle);
         resetBtn.innerHTML = iconSvg("fa-clock-rotate-left", "↺");
 
         // Edit toggle button
         const editBtn = document.createElement("button");
         editBtn.type = "button";
         editBtn.className = "goose-btn goose-edit-btn";
-        editBtn.title = "Edit code (Ctrl+Enter to run)";
-        editBtn.setAttribute("aria-label", "Edit code");
-        editBtn.textContent = "Edit";
+        editBtn.title = T.editTitle;
+        editBtn.setAttribute("aria-label", T.editTitle);
+        editBtn.textContent = T.edit;
 
         // Stacks button (`goose check --stacks`)
         const stacksBtn = document.createElement("button");
         stacksBtn.type = "button";
         stacksBtn.className = "goose-btn goose-stacks-btn";
-        stacksBtn.title = "Inspect compiler data stacks (goose check --stacks)";
-        stacksBtn.setAttribute("aria-label", "Inspect data stacks");
-        stacksBtn.textContent = "Stacks";
+        stacksBtn.title = T.stacksTitle;
+        stacksBtn.setAttribute("aria-label", T.stacksTitle);
+        stacksBtn.textContent = T.stacks;
 
         // Run button
         const runBtn = document.createElement("button");
         runBtn.type = "button";
         runBtn.className = "goose-btn goose-run-btn";
-        runBtn.title =
-            marker === "check-only"
-                ? "Typecheck with goose check"
-                : "Run with goose (Ctrl+Enter)";
-        runBtn.setAttribute(
-            "aria-label",
-            marker === "check-only" ? "Check code" : "Run code"
-        );
+        runBtn.title = marker === "check-only" ? T.checkTitle : T.runTitle;
+        runBtn.setAttribute("aria-label", runBtn.title);
         runBtn.innerHTML = iconSvg("fa-play", "▶");
 
         buttons.insertBefore(runBtn, buttons.firstChild);
@@ -290,11 +339,11 @@
             const bar = document.createElement("div");
             bar.className = "goose-output-bar";
             const title = document.createElement("span");
-            title.textContent = reason || "Connect a Live Goose Runner";
+            title.textContent = reason || T.connectHeading;
             const closeBtn = document.createElement("button");
             closeBtn.type = "button";
             closeBtn.className = "goose-output-close";
-            closeBtn.title = "Hide output";
+            closeBtn.title = T.hideOutput;
             closeBtn.textContent = "×";
             closeBtn.addEventListener("click", function () {
                 out.remove();
@@ -308,8 +357,7 @@
             panel.className = "goose-config-panel";
 
             const desc = document.createElement("p");
-            desc.textContent =
-                "Unedited book listings run anywhere from the built-in verified snapshot. To execute custom edits live, connect a remote Goose runner (Fly.io / Cloud Run / Render / Docker) or start the local server:";
+            desc.textContent = T.connectDesc;
             panel.appendChild(desc);
 
             const form = document.createElement("form");
@@ -327,12 +375,12 @@
             const saveBtn = document.createElement("button");
             saveBtn.type = "submit";
             saveBtn.className = "goose-config-save";
-            saveBtn.textContent = "Connect & Run";
+            saveBtn.textContent = T.connectBtn;
 
             const clearBtn = document.createElement("button");
             clearBtn.type = "button";
             clearBtn.className = "goose-config-clear";
-            clearBtn.textContent = "Reset URL";
+            clearBtn.textContent = T.resetUrlBtn;
             clearBtn.addEventListener("click", function () {
                 saveRunnerUrl("");
                 input.value = "";
@@ -362,27 +410,21 @@
         }
 
         function renderResult(out, data, mode) {
-            const labelMap = {
-                run: "Ran",
-                build: "Built & ran",
-                check: "Checked",
-                stacks: "Data stacks",
-            };
-            const verb = labelMap[data.mode || mode] || "Ran";
+            const verb = T.verbs[data.mode || mode] || T.verbs.run;
 
             let statusText;
             if (data.cached) {
                 statusText = data.ok
-                    ? `✓ ${verb} (verified snapshot · ${data.duration_ms} ms)`
-                    : `✗ Exit ${data.exit_code} (verified snapshot)`;
+                    ? `✓ ${verb} (${T.snapshotTag} · ${data.duration_ms} ms)`
+                    : `✗ ${T.exitLabel} ${data.exit_code} (${T.snapshotTag})`;
             } else {
                 const originTag =
                     resolvedMeta && resolvedMeta.mode === "remote"
-                        ? "remote runner"
-                        : "live";
+                        ? T.remoteTag
+                        : T.liveTag;
                 statusText = data.ok
-                    ? `✓ ${verb} in ${data.duration_ms} ms (${originTag})`
-                    : `✗ Exit ${data.exit_code} (${data.duration_ms} ms · ${originTag})`;
+                    ? `✓ ${verb} · ${data.duration_ms} ms (${originTag})`
+                    : `✗ ${T.exitLabel} ${data.exit_code} (${data.duration_ms} ms · ${originTag})`;
             }
 
             out.className =
@@ -401,10 +443,10 @@
                 const cfgLink = document.createElement("button");
                 cfgLink.type = "button";
                 cfgLink.className = "goose-output-link";
-                cfgLink.textContent = "Connect live runner";
-                cfgLink.title = "Configure a remote or local Goose runner for live edits";
+                cfgLink.textContent = T.connectRunner;
+                cfgLink.title = T.connectTitle;
                 cfgLink.addEventListener("click", function () {
-                    renderRunnerConfig(out, "Connect a Live Goose Runner", mode);
+                    renderRunnerConfig(out, T.connectHeading, mode);
                 });
                 actions.appendChild(cfgLink);
             }
@@ -412,7 +454,7 @@
             const closeBtn = document.createElement("button");
             closeBtn.type = "button";
             closeBtn.className = "goose-output-close";
-            closeBtn.title = "Hide output";
+            closeBtn.title = T.hideOutput;
             closeBtn.textContent = "×";
             closeBtn.addEventListener("click", function () {
                 out.remove();
@@ -428,7 +470,7 @@
             const parts = [];
             if (data.stdout) parts.push(data.stdout.replace(/\n$/, ""));
             if (data.stderr) parts.push(data.stderr.replace(/\n$/, ""));
-            body.textContent = parts.length ? parts.join("\n") : "(no output)";
+            body.textContent = parts.length ? parts.join("\n") : T.noOutput;
 
             out.innerHTML = "";
             out.appendChild(bar);
@@ -473,7 +515,7 @@
 
             codeEl.classList.add("hidden");
             pre.insertBefore(editorEl, outputEl || null);
-            editBtn.textContent = "Done";
+            editBtn.textContent = T.done;
             editBtn.classList.add("active");
             editorEl.focus();
         }
@@ -486,7 +528,7 @@
             codeEl.textContent = currentCode + "\n";
             codeEl.classList.remove("hidden");
             highlightCode(codeEl);
-            editBtn.textContent = "Edit";
+            editBtn.textContent = T.edit;
             editBtn.classList.remove("active");
         }
 
@@ -520,7 +562,7 @@
 
             out.className = "goose-output goose-output-running";
             out.innerHTML =
-                '<div class="goose-output-bar">Running with goose...</div>';
+                '<div class="goose-output-bar">' + T.running + "</div>";
 
             runBtn.disabled = true;
             stacksBtn.disabled = true;
@@ -544,11 +586,7 @@
                     return;
                 }
 
-                renderRunnerConfig(
-                    out,
-                    "Live Goose Runner Required for Edited Code",
-                    mode
-                );
+                renderRunnerConfig(out, T.needRunnerHeading, mode);
             } catch (err) {
                 resetDiscovery();
                 if (cached) {

@@ -1,0 +1,31 @@
+[book]
+title = "Goose 编程指南"
+description = "无堆分配的内存安全系统编程"
+authors = ["Mark Yang"]
+language = "zh-CN"
+src = "src"
+
+[build]
+build-dir = "../book/zh"
+create-missing = false
+
+[output.html]
+default-theme = "light"
+preferred-dark-theme = "navy"
+git-repository-url = "https://github.com/MarkXYang/goose-book"
+edit-url-template = "https://github.com/MarkXYang/goose-book/edit/main/zh/{path}"
+additional-css = ["../theme/custom.css"]
+additional-js = [
+    "../theme/goose-highlight.js",
+    "../theme/goose-config.js",
+    "../theme/goose-precomputed.js",
+    "../theme/goose-playground.js",
+    "../theme/lang-switch.js",
+]
+
+[output.html.fold]
+enable = true
+level = 1
+
+[output.html.search]
+enable = true

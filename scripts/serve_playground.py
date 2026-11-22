@@ -64,8 +64,14 @@ def build_book(quiet=False):
     if p.returncode != 0:
         print("mdbook build failed:\n" + (p.stderr or p.stdout), file=sys.stderr)
         return False
+    zh_dir = os.path.join(ROOT, "zh")
+    if os.path.isfile(os.path.join(zh_dir, "book.toml")):
+        pz = subprocess.run([mdbook, "build", zh_dir], cwd=ROOT, capture_output=True, text=True)
+        if pz.returncode != 0:
+            print("mdbook build zh failed:\n" + (pz.stderr or pz.stdout), file=sys.stderr)
+            return False
     if not quiet:
-        print("Built mdBook into book/")
+        print("Built mdBook into book/ (EN + ZH)")
     return True
 
 
@@ -241,6 +247,7 @@ def _snapshot_mtimes():
     targets = [
         os.path.join(ROOT, "book.toml"),
         os.path.join(ROOT, "src"),
+        os.path.join(ROOT, "zh"),
         os.path.join(ROOT, "theme"),
     ]
     for t in targets:

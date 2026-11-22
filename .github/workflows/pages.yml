@@ -34,8 +34,10 @@ jobs:
             printf 'window.GOOSE_PLAYGROUND_URL = %s;\n' "$(python3 -c 'import json, os; print(json.dumps(os.environ["GOOSE_PLAYGROUND_URL"]))')" > theme/goose-config.js
           fi
 
-      - name: Build mdBook
-        run: mdbook build
+      - name: Build mdBook (EN + ZH)
+        run: |
+          mdbook build
+          mdbook build zh
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
