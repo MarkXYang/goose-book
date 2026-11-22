@@ -15,7 +15,12 @@ preferred-dark-theme = "navy"
 git-repository-url = "https://github.com/MarkXYang/goose-book"
 edit-url-template = "https://github.com/MarkXYang/goose-book/edit/main/{path}"
 additional-css = ["theme/custom.css"]
-additional-js = ["theme/goose-highlight.js", "theme/goose-playground.js"]
+additional-js = [
+    "theme/goose-highlight.js",
+    "theme/goose-config.js",
+    "theme/goose-precomputed.js",
+    "theme/goose-playground.js",
+]
 
 [output.html.fold]
 enable = true
