@@ -8,9 +8,15 @@ A comprehensive book for the [Goose programming language](https://github.com/aar
 - **Authoring & Code Conventions:** [style-guide.md](style-guide.md)
 - **Tested Goose Version:** `goose v2026.4-64-ga5ab89f3-dirty` (runtime `41e336e5d1ee`)
 
-## Building the Book
+## Reading & Running Examples Live in the Book
 
-Requires [mdBook](https://rust-lang.github.io/mdBook/) (`v0.5+`):
+Start the interactive Goose book playground (builds the book, serves it locally, auto-rebuilds on edits, and enables **▶ Run**, **Stacks**, and **Edit** buttons on every Goose code block):
+
+```bash
+python3 scripts/serve_playground.py --open
+```
+
+Or use `mdBook` directly for static preview (read-only):
 
 ```bash
 # Build static HTML into book/

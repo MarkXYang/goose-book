@@ -1,4 +1,4 @@
-/* Subtle styling refinements for Programming in Goose */
+/* Styling refinements and Goose Playground UI for Programming in Goose */
 blockquote {
     border-left-width: 4px;
     padding: 0.4rem 1rem;
@@ -10,4 +10,127 @@ pre > code {
 
 table {
     margin: 1.25rem 0;
+}
+
+/* Interactive Goose Playground */
+pre.goose-playground {
+    position: relative;
+}
+
+pre.goose-playground > .buttons {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    visibility: visible;
+    opacity: 0.75;
+}
+
+pre.goose-playground:hover > .buttons,
+pre.goose-playground:focus-within > .buttons {
+    opacity: 1;
+}
+
+pre.goose-playground > .buttons button.goose-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 26px;
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: 600;
+    padding: 0 8px;
+    margin: 0 2px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+pre.goose-playground > .buttons button.goose-btn svg {
+    width: 11px;
+    height: 11px;
+    fill: currentColor;
+}
+
+pre.goose-playground > .buttons button.goose-btn.active {
+    color: var(--sidebar-active, #e67e22);
+    border-color: var(--sidebar-active, #e67e22);
+}
+
+pre.goose-playground .goose-btn.hidden,
+pre.goose-playground code.hidden {
+    display: none;
+}
+
+pre.goose-playground textarea.goose-editor {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
+    margin: 0;
+    border: 1px solid var(--quote-border, #888);
+    border-radius: 3px;
+    background: var(--quote-bg, rgba(128, 128, 128, 0.08));
+    color: var(--fg, inherit);
+    font-family: var(--mono-font, monospace);
+    font-size: 0.875em;
+    line-height: 1.45;
+    tab-size: 4;
+    resize: vertical;
+    outline: none;
+}
+
+.goose-output {
+    margin-top: 0.4rem;
+    border-top: 1px solid var(--quote-border, rgba(128, 128, 128, 0.35));
+    background: var(--quote-bg, rgba(128, 128, 128, 0.08));
+    font-size: 0.85em;
+}
+
+.goose-output-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem 0.75rem;
+    font-family: var(--mono-font, monospace);
+    font-size: 0.82em;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.goose-output-ok .goose-output-bar {
+    color: #2e8b57;
+}
+
+.goose-output-err .goose-output-bar {
+    color: #d9534f;
+}
+
+.goose-output-info .goose-output-bar {
+    color: #c98a1c;
+}
+
+.goose-output-close {
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-size: 1.15em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+    opacity: 0.75;
+}
+
+.goose-output-close:hover {
+    opacity: 1;
+}
+
+.goose-output-body {
+    margin: 0 !important;
+    padding: 0.6rem 0.85rem !important;
+    background: transparent !important;
+    border: none !important;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: var(--mono-font, monospace);
+    line-height: 1.45;
 }
