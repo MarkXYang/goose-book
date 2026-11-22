@@ -272,10 +272,27 @@ def start_watcher():
     t.start()
 
 
+class ReusableThreadingHTTPServer(http.server.ThreadingHTTPServer):
+    allow_reuse_address = True
+
+
+def bind_server(host, port, handler, explicit_port):
+    attempts = [port] if explicit_port else list(range(port, port + 20))
+    last_err = None
+    for candidate in attempts:
+        try:
+            return ReusableThreadingHTTPServer((host, candidate), handler), candidate
+        except OSError as err:
+            last_err = err
+            if candidate == port and not explicit_port:
+                print(f"Port {port} is already in use; trying next available port...")
+    raise SystemExit(f"Could not bind to {host}:{port}: {last_err}")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--host", default="127.0.0.1", help="bind host (default: 127.0.0.1)")
-    ap.add_argument("--port", type=int, default=3000, help="bind port (default: 3000)")
+    ap.add_argument("--port", type=int, default=None, help="bind port (default: 3000, auto-increments if busy)")
     ap.add_argument("--exe", help="path to goose compiler (default: PATH or ../goose/build/)")
     ap.add_argument("--open", action="store_true", help="open the book in your default browser")
     ap.add_argument("--no-build", action="store_true", help="skip initial mdbook build")
@@ -292,8 +309,9 @@ def main():
         start_watcher()
 
     handler = make_handler(goose_exe, goose_version, serve_static=not a.api_only)
-    server = http.server.ThreadingHTTPServer((a.host, a.port), handler)
-    url = f"http://{a.host}:{a.port}/"
+    requested_port = a.port if a.port is not None else 3000
+    server, actual_port = bind_server(a.host, requested_port, handler, explicit_port=a.port is not None)
+    url = f"http://{a.host}:{actual_port}/"
     print(f"Goose Book Playground running at {url}")
     print(f"Compiler: {goose_version} ({goose_exe})")
     print("Press Ctrl+C to stop.")
